@@ -36,3 +36,9 @@ if __name__ == "__main__": # see Notes in down
 # to Python us script (full program) ko fir se run karta hai. Agar hum is guard ka use na karein, to child process ke andar bhi wahi code fir se run ho sakta hai jo naye processes create karta hai,
 # jis se infinite processes ban sakte hain aur program crash ho sakta hai. Isliye if __name__ == "__main__": ka use kiya jata hai taaki sirf main program hi new process create kare, 
 # aur jab child processes script(full program) ko run karein to wo us part ko execute na karein. Ye multiprocessing ko safely run karne ke liye zaroori practice hai.
+
+
+# Each process has:
+# its own Python interpreter
+# its own memory
+# process creation cost

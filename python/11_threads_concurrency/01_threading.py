@@ -1,4 +1,4 @@
-# gyan: Concurrency is managing multiple tasks by switching between them, while parallelism is executing multiple tasks simultaneously using multiple CPU cores.
+# gyan: Concurrency(threading) is managing multiple tasks by switching between them, while parallelism (parallelism) is executing multiple tasks simultaneously using multiple CPU cores.
 
 
 # Multithreading : 1 core but many workers(thread)
