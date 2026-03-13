@@ -11,3 +11,30 @@ Phir **transformer model context ko samajhta hai**, matlab word ke aas paas ke w
 Finally model **saare tokens ki information combine karke ek single vector banata hai jo pure sentence ko represent karta hai**. Example ke liye **"Eiffel Tower is in Paris"** ka final embedding ho sakta hai **[0.21, -0.55, 0.73, 0.11, 0.44, ...]**. Usually embedding vector me **hundreds ya thousands numbers hote hain (jaise 1536 numbers)**.
 
 Sabse important intuition ye hai ki **similar meaning wale sentences ke vectors bhi similar hote hain**. Example ke liye **"Eiffel Tower is in Paris"** aur **"The Eiffel Tower is located in Paris"** ke vectors bahut close honge. Lekin agar sentence completely different ho jaise **"Python is a programming language"**, to uska vector unse kaafi far hoga.
+
+
+
+
+
+# Docker + Ollama + FasApi :
+✅ Docker mein Ollama image download ki
+✅ Us image ka ek container banaya
+✅ docker compose up se run kiya
+✅ Container ke andar Gemma3 model pull kiya
+✅ FastAPI se server banaya port 8000 pe
+✅ /chat call karte hi port 11434 pe request jati hai
+✅ Model reply karta hai aur wapas return hota hai
+
+
+Docker
+└── Ollama Container (port 11434)
+         └── Gemma3 model inside
+                   ↑
+                   | client.chat()
+                   |
+FastAPI Server (port 8000)
+         └── /chat endpoint
+                   ↑
+                   |
+              You (Browser)
+         POST http://localhost:8000/chat

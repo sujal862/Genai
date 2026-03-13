@@ -1,0 +1,46 @@
+services:  # "Hey Docker, here are the containers to run"
+  ollama:  # Name of our container
+    image: ollama/ollama:latest # download this image(class) from docker hub
+    ports: 
+      - '11434:11434'  # windows port : ollama container port
+    volumes:
+      - models:/root/.ollama/models
+
+volumes:
+  models: #  Create a storage space called "models"
+
+
+
+### What is VOLUME? 📦
+
+# Problem without Volume:
+# ┌─────────────────────┐
+# │ Ollama Container    │
+# │                     │
+# │ Downloaded models   │
+# │ inside container    │
+# └─────────────────────┘
+#          ↓
+# You delete/restart container
+#          ↓
+# ALL MODELS DELETED! 😱
+# Download again! 😭
+# ```
+# ```
+# Solution with Volume:
+# ┌─────────────────────┐
+# │ Ollama Container    │
+# │                     │
+# │ Models stored in ───┼──→ 📦 Volume "models"
+# │ /root/.ollama/models│      (stored safely
+# └─────────────────────┘       outside container
+#                                on your SSD!)
+#          ↓
+# You delete/restart container
+#          ↓
+# Models are SAFE in Volume! ✅
+# No need to download again! 😊
+
+
+
+# cmnd : docker compose up : Docker downloads Ollama image , Creates container, Starts Ollama server
