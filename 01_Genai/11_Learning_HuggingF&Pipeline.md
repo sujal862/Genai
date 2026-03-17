@@ -95,8 +95,8 @@ from transformers import pipeline
 
 gen_pipeline = pipeline(
     "text-generation",    # Task type: we want to generate text
-    model=model,          # The Gemma model we loaded
-    tokenizer=tokenizer   # The tokenizer we loaded
+    model=model,          # use the Gemma model we loaded for generation o/p 
+    tokenizer=tokenizer   # use the tokenizer we loaded to generate token and decode o/p token
 )
 
 

@@ -26,7 +26,7 @@ Output: Bruh? You alright? Is it maths
 """
 
 result = client.chat.completions.create(
-    model="gpt-4o",
+    model="gpt-4o-mini",
     temperature=0.5,
     # Few-shot Prompting: The model is provided with a few examples before asking it to generate a response.
     messages=[

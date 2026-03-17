@@ -7,7 +7,7 @@ services:  # "Hey Docker, here are the containers to run"
       - models:/root/.ollama/models
 
 volumes:
-  models: #  Create a storage space called "models"
+  models: #  Create a storage space called "models"  ( docker-compose down karte hi container(object) ka sara data delete hojata hai for ex: gemma3 model jo tuna pull kiya hai 2gb ka wo delte hojyga , so we use volume so that gemma3model(data of object(continer)) kal din agr hum phir sa ak nya object(container) banaka usko run kra to , gemma3 model pulll krta sma ya redownload na ho purana hi sa sync krla 
 
 
 

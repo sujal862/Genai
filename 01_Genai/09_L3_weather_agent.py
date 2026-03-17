@@ -21,7 +21,7 @@ def run_command(command):
     result = subprocess.run(command, shell=True, capture_output=True, text=True) # This captures and converts output into normal Python string.
 
     # if returncode != 0  then error output by result.stderr
-    if result.returncode != 0: # if returncode != 0  then error output by result.stderr
+    if result.returncode != 0:
         return result.stderr
 
     return result.stdout #returns the command output.

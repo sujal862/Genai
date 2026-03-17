@@ -13,6 +13,16 @@ Finally model **saare tokens ki information combine karke ek single vector banat
 Sabse important intuition ye hai ki **similar meaning wale sentences ke vectors bhi similar hote hain**. Example ke liye **"Eiffel Tower is in Paris"** aur **"The Eiffel Tower is located in Paris"** ke vectors bahut close honge. Lekin agar sentence completely different ho jaise **"Python is a programming language"**, to uska vector unse kaafi far hoga.
 
 
+Simple Example of Vector Embedding: 
+Sentence:
+"I love AI"
+Step 1 — Tokenization:
+[101, 345, 789]
+Step 2 — Embedding:
+101 → [0.2, 0.8, -0.4 ...]  : semantic meaning dena
+345 → [0.7, -0.1, 0.3 ...]
+789 → [0.9, 0.2, -0.5 ...]
+
 
 
 

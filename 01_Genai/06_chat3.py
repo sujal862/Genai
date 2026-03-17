@@ -36,7 +36,7 @@ Output: {{ step: "result", content: "2 + 2 = 4 and that is calculated by adding 
 """
 
 result = client.chat.completions.create(
-    model="gpt-5-mini",
+    model="gpt-4o-mini",
     response_format={"type": "json_object"}, # AI ko JSON return karna padega
     # Chain-of-Thought (CoT) Prompting: The model is encouraged to break down reasoning step by step before arriving at an answer.
     messages=[

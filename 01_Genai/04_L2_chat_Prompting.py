@@ -6,7 +6,7 @@ load_dotenv()
 client = OpenAI()
 
 result = client.chat.completions.create(
-    model="gpt-5-mini",
+    model="gpt-4o-mini",
     # Zero-shot Prompting: The model is given a direct question or task without prior examples.
     messages=[
         {"role": "user", "content": "What is 2 + 2"} 
