@@ -75,7 +75,7 @@ You are a helpful assistant for answering questions based on the provided contex
 context: {context}
 """
 
-client = OpenAI(timeout=60.0)
+client = OpenAI(timeout=60.0) # upr ka kam hona mai time lgega so , openai ko btado ki timout error 60sec tk kmsakum wait kkrna ka baad de
 
 chat_result = client.chat.completions.create(
     model="gpt-4o-mini",

@@ -23,3 +23,8 @@ asyncio.run(brew_chai())
 # asyncio.gather(*aws): run multiple async tasks concurrently and wait for all of them to finish
 # asyncio.create_task(coro): Schedules a coroutine to run, returning a Task object.
 # asyncio.sleep(delay): Pauses for a specified time without blocking the event loop.
+
+
+# IMP : Coroutines vs Blocking func 
+# Coroutines are lightweight, non-blocking asynchronous tasks that suspend execution, allowing the underlying thread to do other work,
+# while blocking functions pause the entire thread until the task completes
