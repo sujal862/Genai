@@ -7,6 +7,7 @@
 #Iske baad hum sab results ko merge karke duplicate chunks hata dete hain aur ek clean context bana kar LLM ko dete hain final answer generate karne ke liye. 
 #Is approach ka main benefit ye hai ki single query se jo information miss ho sakti thi, wo multiple queries ki wajah se cover ho jaati hai, aur answer zyada accurate aur complete banta hai.                                                                                                                                                                                                                                                 user Query
 
+# rating : 6/10
 
 from pathlib import Path
 import json
