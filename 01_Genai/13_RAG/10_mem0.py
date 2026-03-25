@@ -1,3 +1,5 @@
+# Mem0 = retrieve + understand + structure + decide + store
+
 from mem0 import Memory
 import os
 from dotenv import load_dotenv

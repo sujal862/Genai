@@ -20,7 +20,7 @@ docs = loader.load()
 # print(docs[0]) # print 0th chunk(i.e 0th page)
 # print(len(docs)) # 33
 
-
+# RecursiveCharacterTextSplitter then splits smartly — it tries to break at \n\n first, then \n, then space, then character
 # LLM ek baar me bahut bada text process nahi karta efficiently isliye documents ko chote chunks me todte hain
 # chunk_size = max characters in one chunk
 # chunk_overlap = previous chunk ka thoda part next chunk me repeat krta hai taki context break na ho, agar overlap nahi hota to important sentence cut ho sakta tha
