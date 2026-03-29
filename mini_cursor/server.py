@@ -7,15 +7,21 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from openai import OpenAI
 from dotenv import load_dotenv
+from langsmith import traceable
+from langsmith.wrappers import wrap_openai
+from langfuse.openai import openai 
+from langfuse import observe
 
 load_dotenv()
-client = OpenAI()
+client = openai.Client()
 app = FastAPI()
 
 # ==========================================
 # 1. DEFINE OUR CURSOR-STYLE TOOLS
 # ==========================================
 
+#@traceable # This LangSmith decorator will automatically trace calls to this function in the LangSmith dashboard, which is super helpful for debugging and understanding agent behavior!
+@observe() # for lanfuse to trace functions
 def run_command(command: str):
     try:
         # Added timeout so the agent doesn't freeze on commands like `ping`
@@ -24,6 +30,8 @@ def run_command(command: str):
     except Exception as e:
         return str(e)
 
+#@traceable
+@observe()
 def read_url(url: str):
     try:
         # Fetch web page and extract only text (to save tokens!)
@@ -34,6 +42,20 @@ def read_url(url: str):
     except Exception as e:
         return f"Failed to read URL: {str(e)}"
 
+
+#@traceable
+def get_weather(city: str):
+    print("🔨 Tool Called: get_weather", city)
+
+    url = f"https://wttr.in/{city}?format=%C+%t"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        return f"The weather in {city} is {response.text}."
+    return "Something went wrong"
+
+
+#@traceable
 def explore_files(path: str = "."):
     try:
         files = os.listdir(path)
@@ -41,6 +63,7 @@ def explore_files(path: str = "."):
     except Exception as e:
         return f"Error reading directory: {str(e)}"
 
+#@traceable
 def read_file(filepath: str):
     try:
         with open(filepath, "r", encoding="utf-8") as f:
@@ -48,6 +71,8 @@ def read_file(filepath: str):
     except Exception as e:
         return f"Error reading file: {str(e)}"
 
+
+#@traceable
 def write_file(args_json: str):
     # Because writing a file requires 2 arguments (filepath & content), 
     # we force the LLM to pass a JSON string as the single `input` parameter.
@@ -64,7 +89,8 @@ available_tools = {
     "read_url": {"fn": read_url, "description": "Fetch text content from a web URL. Input: url string."},
     "explore_files": {"fn": explore_files, "description": "List files in a directory. Input: directory path (default '.')."},
     "read_file": {"fn": read_file, "description": "Read file contents. Input: file path string."},
-    "write_file": {"fn": write_file, "description": 'Write to file. Input MUST be a JSON string like: {"filepath": "doc.txt", "content": "hello"}'}
+    "write_file": {"fn": write_file, "description": 'Write to file. Input MUST be a JSON string like: {"filepath": "doc.txt", "content": "hello"}'},
+    "get_weather": {"fn": get_weather, "description": "Takes a city name as an input and returns the current weather for the city"},
 }
 
 tools_description = "\n".join(f"- {name}: {tool['description']}" for name, tool in available_tools.items())
