@@ -31,6 +31,7 @@ def detect_query(state: State):
     to coding question or not.
     Return the response in specified JSON boolean only"""
 
+    # structured output (auto parsing)
     result = client.beta.chat.completions.parse(
         model="gpt-4o-mini",
         response_format=DetectCallResponse, # use the pydantic model to parse the response
@@ -40,8 +41,10 @@ def detect_query(state: State):
         ]
     )
 
-    state["is_coding_question"] = result.choices[0].message.parsed.is_coding_question
-    return state
+    # When a function (node) finishes its job, it returns a dictionary. LangGraph automatically takes that dictionary and merges it into the main State.
+    # LangGraph sees this and updates state["is_coding_question"] = True/False for you.
+    return {"is_coding_question": result.choices[0].message.parsed.is_coding_question}  # ab hma json ko parse karka dict mai manually json.loads use krka access nahi karna padega, directly parsed response se access kar sakte hain
+    
 
 # 🔹 Conditional function: decide next node
 def route_edge(state: State) -> Literal["solve_coding_question", "solve_simple_question"]:
@@ -66,8 +69,8 @@ def solve_coding_question(state: State):
             {"role": "user", "content": user_message}
         ]
     )
-    state["ai_message"] = result.choices[0].message.parsed.answer
-    return state
+    return {"ai_message": result.choices[0].message.parsed.answer}
+
 
 def solve_simple_question(state: State):
     #openaai call to solve simple question
@@ -87,8 +90,7 @@ def solve_simple_question(state: State):
             { "role": "user", "content": user_message }
         ]
     )
-    state["ai_message"] = result.choices[0].message.parsed.answer
-    return state
+    return {"ai_message": result.choices[0].message.parsed.answer}
 
 
 # Graph build start
@@ -106,7 +108,6 @@ graph_builder.add_conditional_edges(
     route_edge # Ye function state ko check karega , aur decide karega next kaunsa node run hoga
     )
 
-# 🔹 Start → first node
 graph_builder.add_edge("solve_coding_question", END)
 graph_builder.add_edge("solve_simple_question", END)
 
@@ -114,6 +115,7 @@ graph_builder.add_edge("solve_simple_question", END)
 graph = graph_builder.compile()
 
 def call_graph(user_message: str):
+    # initial state
     state = {
         "user_message": user_message,
         "ai_message": "",

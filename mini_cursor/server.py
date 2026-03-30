@@ -38,7 +38,7 @@ def read_url(url: str):
         res = requests.get(url, timeout=10)
         soup = BeautifulSoup(res.text, 'html.parser')
         text = soup.get_text(separator=' ', strip=True) # Get all text from all tags with spaces, and trim whitespace
-        return text[:8000] + "... [TRUNCATED]" # Prevent breaking token limits by allowing max 3000 words
+        return text[:8000] + "... [TRUNCATED]" # Prevent breaking token limits by allowing max 8000 words
     except Exception as e:
         return f"Failed to read URL: {str(e)}"
 
@@ -137,7 +137,7 @@ def chat_with_agent(req: ChatRequest):
     # The AI Thinking Loop!
     for _ in range(15): # Limiting to 15 iterations so it doesn't loop infinitely
         response = client.chat.completions.create(
-            model="gpt-4o-mini", # Using modern standard models
+            model="gpt-4o-mini",
             response_format={"type": "json_object"},
             messages=messages
         )
@@ -161,7 +161,7 @@ def chat_with_agent(req: ChatRequest):
                 observation = {"step": "observe", "output": output}
                 messages.append({"role": "assistant", "content": json.dumps(observation)})
                 # Truncate logs so the CLI doesn't flood the frontend
-                action_logs.append(f"👀 Observe: {str(output)[:150]}...") 
+                action_logs.append(f"👀 Observe: {str(output)[300]}...") 
             else:
                 messages.append({"role": "assistant", "content": json.dumps({"step": "observe", "output": "Tool not found"})})
                 
