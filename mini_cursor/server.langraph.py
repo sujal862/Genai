@@ -7,8 +7,8 @@ import requests
 from bs4 import BeautifulSoup
 from typing import Annotated
 import operator
-
-from langchain_openai import ChatOpenAI
+from langsmith import traceable 
+from langchain_openai import ChatOpenAI # using openai from langachain
 from langchain_core.tools import tool
 from langchain_core.messages import HumanMessage # Message type for user input
 from langchain_core.messages import SystemMessage # Message type for system instructions
@@ -128,15 +128,17 @@ llm_with_tools = llm.bind_tools(tools)
 # ==========================================
 # 4. NODES
 def call_agent(state: AgentState):
-    # Agent node: LLM ko messages bhejo, response wapas lo.
-    # Agar LLM ko tool chahiye, wo tool_calls return karega.
-    # Agar answer ready hai, normal message return karega.
+    """
+    Agent node: LLM ko messages bhejo, response wapas lo.
+    Agar LLM ko tool chahiye, wo tool_calls return karega.
+    Agar answer ready hai, normal message return karega.
+    """
 
     messages = state["messages"]
 
     full_messages = [SystemMessage(content=SYSTEM_PROMPT)] + messages
 
-    response = llm_with_tools.invoke(full_messages)
+    response = llm_with_tools.invoke(full_messages) # LLM call happening, response will contain either final answer or tool_calls
     return {"messages": [response]} # see example output above, we return the whole message object which contains both content and tool_calls (if any), and langraph will merge it into the state. So next time when we access state["messages"], it will contain the new message from AI with tool_calls if any.
 
 
@@ -197,6 +199,7 @@ graph = workflow.compile()
 
 # ==========================================
 # 7. RUN
+@traceable(name="Mini Cursor Agent Run")  # ye decorator langsmith ke liye hai, jisse hum apne agent ke runs ko langsmith dashboard pe trace kar sakte hain, aur har step pe kya ho raha tha dekh sakte hain.
 def run_agent(query: str):
     initial_state = {
         "messages": [HumanMessage(content=query)]
@@ -206,6 +209,7 @@ def run_agent(query: str):
 
     # Last message wille be = final answer
     print("\n=== FINAL ANSWER ===")
+    print(result)
     print(result["messages"][-1].content) # access last msg content which is the final answer from AI
 
     # Poori conversation history bhi dekh sakte ho

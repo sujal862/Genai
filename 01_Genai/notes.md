@@ -79,3 +79,5 @@ retry hua ya nahi
 
 # Langfuse ( open source version of langsmith)
 
+# docker compose up -d : 
+The command docker compose up -d is used to start your multi-container application in "detached" mode, meaning the containers run in the background and do not take over your current terminal window
