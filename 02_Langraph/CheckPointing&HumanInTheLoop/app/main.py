@@ -7,13 +7,13 @@ from langgraph.checkpoint.mongodb import MongoDBSaver
 MONGODB_URI = "mongodb://localhost:27017/"
 # This is your conversation ID :-
 # Same ID → same memory ; Different ID → new conversation
-config = {"configurable": {"thread_id": "2"}}
+config = {"configurable": {"thread_id": "1"}}
 
 # using invoke : tab tak kuch nahi milta jab tak graph pura khatam na ho, ek final state object return hota hai END mai
 # using stream : har step pe event milta hai jab tak graph execute ho raha hota hai, har ek node ke execute hone ke baad uska output milta hai, aur END par bhi final state object milta hai
 def init():
     # Create MongoDB checkpointer using connection string, 'with' ensures connection is opened and closed properly
-    with MongoDBSaver.from_conn_string(MONGODB_URI) as checkpointer:
+    with MongoDBSaver.from_conn_string(MONGODB_URI, db_name="checkpointer_learning_db") as checkpointer:
         # Create graph with memory Now your Graph remebers messages and save them in MongoDB
         graph_with_mongo = create_chat_graph(checkpointer=checkpointer)
 

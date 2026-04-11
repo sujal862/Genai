@@ -42,6 +42,7 @@ graph_builder.add_conditional_edges(
 
 graph_builder.add_edge("tools", "chatbot")
 
+# graph without any memory (not using this now!)
 graph = graph_builder.compile()
 
 # this will create a new graph with checkpointer (to store states)
@@ -52,3 +53,11 @@ def create_chat_graph(checkpointer):
 
 # Note :
 # When you use tools_condition on a node, Langgraph implicitly creates the routing to either your "tools" node or the END node depending on whether the LLM requested a tool execution.
+
+# START → chatbot
+#             ↓
+#      tools_condition
+#        ↙        ↘
+#    tools        END
+#      ↓
+#   chatbot

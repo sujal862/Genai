@@ -1,0 +1,35 @@
+services:
+  # app container ko Dockerfile ka image sa bnao 
+  app:
+    build:
+      context: ..                          # Dockerfile context ek level upar hai
+      dockerfile: .devcontainer/Dockerfile # Yahan se image banao
+    volumes:
+      - ../..:/workspaces/:cached          # Tera local code folder → container ke andar mount kr rha
+                                           # cached = performance fast rehti hai
+    command: sleep infinity                # Container band na ho isliye — bas chalta reh
+
+  mongo:
+    image: mongo          
+    restart: always       # Crash ho toh automatically restart
+    ports:
+      - "27017:27017"     # Tera laptop:27017 → container:27017 (mapping)
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin  
+      - MONGO_INITDB_ROOT_PASSWORD=admin  
+    volumes:
+      - mongo_data:/data/db  
+
+  valkey:
+    image: valkey/valkey  # Redis ka open-source alternative
+    restart: always      
+    ports:
+      - "6379:6379"       # Tera laptop:6379 → container:6379
+    volumes:
+      - valkey_data:/usr/local/etc/valkey  
+
+# Ye volumes actually laptop pe physically store hote hain Docker ke managed folder mein
+# Container delete ho jaye → volumes safe rehte hain → data nahi jaata
+volumes:
+  mongo_data:
+  valkey_data:

@@ -1,0 +1,8 @@
+{
+ "mcpServers": {
+    "my-server": {
+      "command": "node",  // Jo command run hogi terminal mei : matlab: node index.js
+      "args": ["D:\\Coding\\Dev\\GenAi\\04_MCP\\index.js"]
+    }
+  }
+}

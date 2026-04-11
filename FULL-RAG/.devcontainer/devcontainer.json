@@ -1,0 +1,46 @@
+{
+  // Is dev environment ka naam hai ya — VS Code ke bottom-left mein dikhega
+  "name": "ChaiCode GenAI Cohort Dev Env",
+
+  // Bata raha hai VS Code ko ki compose file kahan hai
+  "dockerComposeFile": "docker-compose.yaml",
+
+  // Teen containers mein se VS Code KIS container mein ghusega ? — app wale mein ghusega
+  "service": "app",
+
+  // Container ke andar tera c ode folder kahan milega
+  // ${localWorkspaceFolderBasename} = tera local folder ka naam automatically aajayega (FULL-RAG)
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  // Container ke andar kaun sa user banke kaam karna hai — root matlab full permissions (Linux runs on user based system)
+  "remoteUser": "root",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python", // Python support
+        "ms-python.black-formatter", // Code auto-format karta hai
+        "eamodio.gitlens", // Git history, blame sab dikhata hai
+        "njpwerner.autodocstring", // Function pe """ likho to docstring auto-generate
+        "KevinRose.vsc-python-indent", // Python indentation smart ho jaati hai
+        "esbenp.prettier-vscode", // JS/JSON/YAML formatting
+        "usernamehw.errorlens", // Errors line pe hi red mein dikhta hai
+        "tamasfe.even-better-toml", // TOML files (pyproject.toml etc) support
+        "aaron-bond.better-comments", // Comments color coded ho jaate hain TODO, !, ? etc
+        "ms-azuretools.vscode-docker", // VS Code mein Docker containers manage karo
+        "ms-python.flake8", // Python code linting — galat style batata hai
+        "ms-python.isort" // Imports automatically sort ho jaate hain
+      ],
+      "settings": {
+        // Container ke andar Python kahan installed hai — VS Code ko batao
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+
+        // Default formatter Black hai — consistent code style
+        "editor.defaultFormatter": "ms-python.black-formatter",
+
+        // Save karo to automatically format ho jaayega
+        "editor.formatOnSave": true
+      }
+    }
+  }
+}
