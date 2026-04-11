@@ -13,6 +13,9 @@ ENV PYTHONUNBUFFERED=1
 RUN sudo apt-get update && \
     sudo apt-get install -y curl
 
+# for pdf2image
+RUN apt-get install -y poppler-utils
+
 # pip ko latest version pe upgrade karo
 # Taki koi bhi package install karte waqt version issues na aayein
 RUN pip install --upgrade pip

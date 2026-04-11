@@ -1,6 +1,9 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, Path
 from .utils.file import save_to_disk
 from .db.collections.files import files_collection, FileSchema
+from .queue.queue import q
+from .queue.workers import process_file
+from bson import ObjectId
 
 app = FastAPI()
 
@@ -8,6 +11,17 @@ app = FastAPI()
 @app.get("/")
 def hello():
     return {"status": "healthy"}
+
+
+@app.get("/{id}")
+async def get_file(id: str = Path(..., description="The ID of the file to retrieve")):
+    db_file = await files_collection.find_one({"_id": ObjectId(id)})
+    return {
+        "_id": str(db_file["_id"]),
+        "name": db_file["name"],
+        "status": db_file["status"],
+        "result": db_file["result"] if "result" in db_file else None,
+    }
 
 
 @app.post("/upload")
@@ -25,7 +39,7 @@ async def upload_file(file: UploadFile):
     await save_to_disk(file=await file.read(), path=file_path)
 
     # Push to Queue
-    print("queued")
+    q.enqueue(process_file, str(db_file.inserted_id), file_path)
 
     # MongoDB (update status uploded)
     await files_collection.update_one({"_id": db_file.inserted_id}, {

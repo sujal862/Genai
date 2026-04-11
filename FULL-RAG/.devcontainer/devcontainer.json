@@ -8,8 +8,8 @@
   // Teen containers mein se VS Code KIS container mein ghusega ? — app wale mein ghusega
   "service": "app",
 
-  // Container ke andar tera c ode folder kahan milega
-  // ${localWorkspaceFolderBasename} = tera local folder ka naam automatically aajayega (FULL-RAG)
+  // Container ke andar tera code folder kahan milega
+  // ${localWorkspaceFolderBasename} = FULL-RAG = tera local folder ka naam automatically aajayega (FULL-RAG)
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   // Container ke andar kaun sa user banke kaam karna hai — root matlab full permissions (Linux runs on user based system)
