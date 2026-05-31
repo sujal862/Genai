@@ -2,7 +2,7 @@ services:
   qdrant:
     image: qdrant/qdrant
     ports:
-      - 6333:6333 # REST API + Web UI (dashboard)
+      - 6333:6333 # REST API + Web UI (browser me dashboard open kar sakte ho)
       - 6334:6334 # actual database ka "door" jahan se data aata jaata hai (actual db connection)
     volumes:
       - qdrant_data:/qdrant/storage

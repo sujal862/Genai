@@ -48,3 +48,18 @@ The Worker:
 To start executing enqueued function calls (i.e worker) in the background, start a worker from your project’s directory:
 
 ** rq worker --with-scheduler (run this on terminal to get o/p of queue worker)
+
+
+# Full Flow:
+
+POST /upload → Save PDF → MongoDB (status: "queued") → RQ Job Queue
+                                                            ↓
+                                                   Background Worker
+                                                            ↓
+                                              PDF → Image → Base64 encode
+                                                            ↓
+                                                 OpenAI GPT-4o Vision API
+                                                            ↓
+                                              Save result → MongoDB (status: "processed")
+                                                            ↓
+                                              GET /{id} → Return result

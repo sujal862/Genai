@@ -1,7 +1,6 @@
 services:
   mongodb:
     image: mongo
-    restart: always # Restart the container if it stops
     ports:
       - "27017:27017"
     environment:
